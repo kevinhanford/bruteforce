@@ -113,7 +113,7 @@ export default function BruteForce() {
     const interval = setInterval(() => {
       setCountdownTimer(getMidnightCountdown());
     }, 1000);
-    setCountdownTimer(getMidnightCountdown()); // Initial set
+    setCountdownTimer(getMidnightCountdown()); 
     return () => clearInterval(interval);
   }, [gameState]);
 
@@ -139,7 +139,7 @@ export default function BruteForce() {
   const triggerError = useCallback(() => {
     sfx.error();
     setIsShaking(true);
-    setTimeout(() => setIsShaking(false), 400); // Shake duration
+    setTimeout(() => setIsShaking(false), 400); 
   }, []);
 
   const saveDailyData = (status, finalGuesses) => {
@@ -212,7 +212,7 @@ export default function BruteForce() {
   // --- RENDERING ---
 
   if (gameState === 'landing') return (
-    <div className="h-screen bg-zinc-950 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+    <div className="h-[100dvh] bg-zinc-950 flex flex-col items-center justify-center p-6 text-center overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
       <Lock className="text-cyan-400 mb-6 animate-pulse z-10" size={64} />
       <h1 className="text-6xl font-black text-white tracking-tighter mb-2 z-10">BRUTEFORCE</h1>
@@ -222,13 +222,13 @@ export default function BruteForce() {
   );
 
   if (gameState === 'rules') return (
-    <div className="h-screen bg-zinc-950 flex flex-col items-center justify-center p-4 font-mono relative overflow-hidden">
+    <div className="h-[100dvh] bg-zinc-950 flex flex-col items-center justify-center p-4 font-mono relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-fuchsia-500/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="z-10 w-full max-w-sm bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 p-6 sm:p-8 rounded-[2rem] shadow-2xl flex flex-col">
         <h2 className="text-xl font-black text-white uppercase mb-6 flex items-center gap-2 border-b border-zinc-800 pb-4"><Terminal className="text-fuchsia-500" size={24} /> Directives</h2>
         
         <div className="space-y-4 mb-8">
-          <p className="text-zinc-400 text-xs leading-relaxed uppercase tracking-wider mb-2">Crack the daily 5-digit code in <span className="text-white font-bold">5 attempts</span>. You have <span className="text-red-400 font-bold">60 SECONDS</span>.</p>
+          <p className="text-zinc-400 text-xs leading-relaxed uppercase tracking-wider mb-2">Crack the 5-digit code in <span className="text-white font-bold">5 attempts</span>. You have <span className="text-red-400 font-bold">60 SECONDS</span>.</p>
           
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 shrink-0 bg-cyan-500/20 border border-cyan-500 rounded-lg flex items-center justify-center text-cyan-400 font-bold">7</div>
@@ -255,19 +255,21 @@ export default function BruteForce() {
   );
 
   return (
-    <div className="h-screen bg-zinc-950 flex flex-col items-center justify-between py-6 px-4 font-mono overflow-hidden select-none">
-      <div className="w-full max-w-sm flex justify-between items-end px-2">
-        <h2 className="text-cyan-500 font-bold tracking-tighter uppercase">Bruteforce</h2>
+    <div className="h-[100dvh] bg-zinc-950 flex flex-col items-center justify-between py-2 sm:py-6 px-2 sm:px-4 font-mono overflow-hidden select-none">
+      
+      {/* HEADER */}
+      <div className="w-full max-w-sm flex justify-between items-end px-2 pt-2 sm:pt-0">
+        <h2 className="text-cyan-500 font-bold tracking-tighter uppercase text-lg sm:text-xl">Bruteforce</h2>
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <span className="text-[10px] text-zinc-500 block font-bold">TRACE TIMER</span>
-            <span className={`text-xl font-mono ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+            <span className="text-[10px] text-zinc-500 block font-bold leading-none mb-1">TRACE</span>
+            <span className={`text-lg sm:text-xl font-mono leading-none ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : 'text-white'}`}>
               00:{timeLeft.toString().padStart(2, '0')}
             </span>
           </div>
           <div className="text-right">
-            <span className="text-[10px] text-zinc-500 block font-bold">RETRIES</span>
-            <span className="text-white font-mono">{MAX_ATTEMPTS - guesses.length}</span>
+            <span className="text-[10px] text-zinc-500 block font-bold leading-none mb-1">TRIES</span>
+            <span className="text-white font-mono leading-none text-lg sm:text-xl">{MAX_ATTEMPTS - guesses.length}</span>
           </div>
         </div>
       </div>
@@ -276,19 +278,19 @@ export default function BruteForce() {
       <motion.div 
         animate={isShaking ? { x: [-10, 10, -8, 8, -5, 5, 0] } : { x: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex-1 w-full max-w-sm flex flex-col items-center justify-center space-y-6"
+        className="flex-1 w-full max-w-sm flex flex-col items-center justify-center space-y-4 sm:space-y-6"
       >
         
-        {/* THE GRID */}
-        <div className="w-full max-w-xs flex flex-col justify-center space-y-2">
+        {/* COMPACT MOBILE GRID */}
+        <div className="w-full flex flex-col justify-center space-y-1 sm:space-y-2">
           {[...Array(MAX_ATTEMPTS)].map((_, i) => (
-            <div key={i} className="flex space-x-2 justify-center">
+            <div key={i} className="flex space-x-1 sm:space-x-2 justify-center">
               {[...Array(CODE_LENGTH)].map((_, j) => {
                 const g = guesses[i];
                 const digit = g ? g.digits[j] : (i === guesses.length ? currentGuess[j] : '');
                 const res = g ? g.result[j] : '';
                 return (
-                  <div key={j} className={`w-12 h-14 sm:w-14 sm:h-16 flex items-center justify-center rounded-xl border-2 text-2xl font-bold transition-all duration-300
+                  <div key={j} className={`w-11 h-12 sm:w-14 sm:h-16 flex items-center justify-center rounded-lg sm:rounded-xl border-2 text-xl sm:text-2xl font-bold transition-all duration-300
                     ${res === 'exact' ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 
                       res === 'partial' ? 'bg-fuchsia-500/20 border-fuchsia-500 text-fuchsia-400 shadow-[0_0_15px_rgba(217,70,239,0.3)]' : 
                       res === 'miss' ? 'bg-zinc-900 border-zinc-800 text-zinc-700' : 
@@ -300,11 +302,11 @@ export default function BruteForce() {
           ))}
         </div>
 
-        {/* NUMPAD */}
-        <div className="w-full max-w-xs grid grid-cols-3 gap-2 p-3 bg-zinc-900/30 backdrop-blur-md rounded-[2.5rem] border border-zinc-800/50">
+        {/* COMPACT MOBILE NUMPAD */}
+        <div className="w-full grid grid-cols-3 gap-1.5 p-2 sm:p-3 bg-zinc-900/30 backdrop-blur-md rounded-3xl border border-zinc-800/50">
           {['1','2','3','4','5','6','7','8','9','DEL','0','ENT'].map(k => (
             <button key={k} onClick={() => { if(k==='DEL') handleKeyPress('Backspace'); else if(k==='ENT') handleKeyPress('Enter'); else handleKeyPress(k); }} 
-              className={`h-12 sm:h-14 rounded-2xl font-bold text-xl active:scale-90 transition-all flex items-center justify-center border border-transparent cursor-pointer
+              className={`h-11 sm:h-14 rounded-xl sm:rounded-2xl font-bold text-lg sm:text-xl active:scale-95 transition-all flex items-center justify-center border border-transparent cursor-pointer
               ${k === 'ENT' ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-900/20' : 'bg-zinc-800/80 text-zinc-300'}
               ${usedKeys[k] === 'exact' ? 'bg-cyan-500/20 text-cyan-400 !border-cyan-500/50' : 
                 usedKeys[k] === 'partial' ? 'bg-fuchsia-500/20 text-fuchsia-400 !border-fuchsia-500/50' : 
